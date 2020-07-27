@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head> 
-    <title>Jogo da Cobrinha </title>
   </head>
 <body>
+  <h1> Jogo da Cobrinha<h1>
   <canvas id="stage" width="400" height="400"></canvas>
   <script> type="text/javascript"
 
         window.onload = function(){
 
-        var stage = document.getElementById('stage');
-        var ctx = stage.getContext("2d");
+        const stage = document.getElementById('stage'); //pegando o stage do html
+        const ctx = stage.getContext("2d"); //renderização bidimensional
         document.addEventListener("keydown", keyPush);//variavel que espera um evento
 
         setInterval(game, 60); // em cada 60 segundos vai chamar o jogo 
-        const velocidade = 1;//quantas quadradinhos a cobra vai andar por cada vez q executar a função
+        const velocidade = 1;//quantas unidades a cobra vai andar por cada vez q executar a função
 
-        var velocidadex = velocidadey = 0;
-        var posicaox = 10;
-        var posicaoy = 15;
-        var tamanhoUnidade =20;
-        var quantidadeUnidade = 20;
-        var posicaoMacax = posicaoMacaY = 15;
-        var rastro = [];
-        tail = 5; //tamanho inicial da cobrinha
+        let velocidadex = velocidadey = 0;
+        let posicaox = 5;
+        let posicaoy = 15;
+        let tamanhoUnidade =20;
+        let quantidadeUnidade = 20;
+        let posicaoMacax = posicaoMacaY = 10;
+        let rastro = [];
+        tail = 1; //tamanho inicial da cobrinha
 
 
 
         function game(){
-              posicaox += velocidadex;
+              posicaox += velocidadex; //cada vez q a função for chamada a posição da cobrinha deve mudar
               posicaoy += velocidadey;
 
               /*
@@ -62,7 +61,7 @@
                 ctx.fillRect(rastro[i].x*tamanhoUnidade, rastro[i].y*tamanhoUnidade, tamanhoUnidade-1, tamanhoUnidade-1);
                     if (rastro[i].x == posicaox && rastro[i].y == posicaoy){    //GAME OVER
                       velocidadex = velocidadey = 0;
-                      tail = 5;
+                      tail = 3;
                     }
               }
 
