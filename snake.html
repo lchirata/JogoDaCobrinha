@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title>Jogo da Cobrinha </title>
+  </head>
+<body>
+  <canvas id="stage" width="400" height="400"></canvas>
+  <script> type="text/javascript"
+
+        window.onload = function(){
+
+        var stage = document.getElementById('stage');
+        var ctx = stage.getContext("2d");
+        document.addEventListener("keydown", keyPush);//variavel que espera um evento
+
+        setInterval(game, 60); // em cada 60 segundos vai chamar o jogo 
+        const velocidade = 1;//quantas quadradinhos a cobra vai andar por cada vez q executar a função
+
+        var velocidadex = velocidadey = 0;
+        var posicaox = 10;
+        var posicaoy = 15;
+        var tamanhoUnidade =20;
+        var quantidadeUnidade = 20;
+        var posicaoMacax = posicaoMacaY = 15;
+        var rastro = [];
+        tail = 5; //tamanho inicial da cobrinha
+
+
+
+        function game(){
+              posicaox += velocidadex;
+              posicaoy += velocidadey;
+
+              /*
+               Função dos Ifs abaixo : toda vez que a cobrinha chega na estremidade da stage (posicao 0), 
+               as unidades da cobrinha aparecem na vertice oposta da stage.
+
+               Se a cobrinha vai para direita, uma unidade do extremo esquerdo é subtraido.
+
+              */  
+              if(posicaox < 0){
+                  posicaox = quantidadeUnidade-1; 
+              }
+              if(posicaox > quantidadeUnidade-1){
+                posicaox = 0;
+              }
+              if(posicaoy < 0){
+                posicaoy = quantidadeUnidade-1;
+              }
+              if(posicaoy > quantidadeUnidade-1){
+                posicaoy = 0;
+              }
+
+              ctx.fillStyle = "black";
+              ctx.fillRect(0,0, stage.width, stage.height); // define posição da stage a ser pintada
+
+              ctx.fillStyle = "red";
+              ctx.fillRect(posicaoMacax*tamanhoUnidade, posicaoMacaY*tamanhoUnidade, tamanhoUnidade, tamanhoUnidade); 
+
+              ctx.fillStyle = "gray";
+              for (var i = 0; i < rastro.length; i++){
+                ctx.fillRect(rastro[i].x*tamanhoUnidade, rastro[i].y*tamanhoUnidade, tamanhoUnidade-1, tamanhoUnidade-1);
+                    if (rastro[i].x == posicaox && rastro[i].y == posicaoy){    //GAME OVER
+                      velocidadex = velocidadey = 0;
+                      tail = 5;
+                    }
+              }
+
+              rastro.push({x:posicaox, y:posicaoy})
+              while (rastro.length > tail) {
+                rastro.shift();
+              }
+
+              if (posicaoMacax == posicaox && posicaoMacaY == posicaoy){
+                tail ++;
+                posicaoMacax = Math.floor(Math.random()*quantidadeUnidade);//posicionando maça para outro lugar da stage
+                posicaoMacaY = Math.floor(Math.random()*quantidadeUnidade); 
+              }
+            }
+
+            function keyPush(event){
+
+                switch (event.keyCode) {
+                case 37: //esquerda
+                  velocidadex = - velocidade;
+                  velocidadey = 0;
+                  break;
+               case 38: //cima
+                  velocidadex = 0;
+                  velocidadey = - velocidade;
+                  break;
+               case 39: // direita
+                  velocidadex = velocidade;
+                  velocidadey = 0;
+                  break;
+               case 40: // baixo
+                  velocidadex = 0;
+                  velocidadey = velocidade;
+                  break;
+                default:
+                  break;
+                }
+            }
+
+
+
+      }
+  </script>
+  </body>
